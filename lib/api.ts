@@ -9,7 +9,7 @@ axios.defaults.baseURL = "https://notehub-public.goit.study/api";
 
 const TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
-interface FetchNotesResponse {
+ export interface FetchNotesResponse {
     notes: Note[];
     totalPages: number;
 }

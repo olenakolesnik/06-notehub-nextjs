@@ -3,16 +3,17 @@
 "use client";
 
 import { useState } from "react";
-import { QueryClient, QueryClientProvider, useQuery, hydrate, DehydratedState } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider, useQuery, hydrate, DehydratedState, keepPreviousData } from "@tanstack/react-query";
 import { useDebouncedCallback } from "use-debounce";
 import { fetchNotes } from "@/lib/api";
-import type { Note, FetchNotesResponse } from "@/types/note";
+
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
 import NoteList from "@/components/NoteList/NoteList";
 import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
 import css from "./NotesPage.module.css";
+import {FetchNotesResponse} from "@/lib/api"
 
 type NotesClientProps = {
   initialPage: number;
@@ -46,10 +47,8 @@ function NotesContent({ initialPage, initialSearch }: { initialPage: number; ini
   const { data, isLoading } = useQuery<FetchNotesResponse>({
     queryKey: ["notes", page, search],
     queryFn: () => fetchNotes({ page, search }),
-    staleTime: 5000,
+    placeholderData: keepPreviousData,
   });
-
-  const handleSelectNote = (note: Note) => console.log("Selected:", note);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -71,7 +70,7 @@ function NotesContent({ initialPage, initialSearch }: { initialPage: number; ini
       {isLoading && <strong className={css.loading}>Loading notes...</strong>}
 
       {(data?.notes ?? []).length > 0 && (
-        <NoteList notes={data?.notes ?? []} onSelect={handleSelectNote} />
+        <NoteList notes={data?.notes ?? []} />
       )}
 
       {isModalOpen && (

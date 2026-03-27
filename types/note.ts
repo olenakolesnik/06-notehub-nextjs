@@ -13,7 +13,3 @@ export interface CreateNote {
     tag: string;
 }
 
-export interface FetchNotesResponse {
-    notes: Note[];
-    totalPages: number;
-  }

@@ -12,11 +12,10 @@ import Link from "next/link";
 
 interface NoteListProps {
     notes: Note[];
-    onSelect: (note: Note) => void;
 }
 
 
-function NoteList({ notes, onSelect }: NoteListProps) {
+function NoteList({ notes }: NoteListProps) {
     const queryClient = useQueryClient();
 
     const {mutate, isPending} = useMutation({
@@ -32,7 +31,7 @@ function NoteList({ notes, onSelect }: NoteListProps) {
         <ul className={css.list}>
             {/* Набір елементів списку нотаток */}
             {notes.map(note => (
-                <li key={note.id} onClick={() => onSelect(note)} className={css.listItem}>
+                <li key={note.id} className={css.listItem}>
                     <h2 className={css.title}>{note.title}</h2>
                     <p className={css.content}>{note.content}</p>
         <div className={css.footer}>
