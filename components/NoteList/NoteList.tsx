@@ -33,11 +33,11 @@ function NoteList({ notes, onSelect }: NoteListProps) {
             {/* Набір елементів списку нотаток */}
             {notes.map(note => (
                 <li key={note.id} onClick={() => onSelect(note)} className={css.listItem}>
-                    <Link href={`/notes/${note.id}`}>{note.title}</Link>
                     <h2 className={css.title}>{note.title}</h2>
                     <p className={css.content}>{note.content}</p>
         <div className={css.footer}>
                         <span className={css.tag}>{note.tag}</span>
+                        <Link href={`/notes/${note.id}`}>View details</Link>
           <button className={css.button} disabled={isPending} onClick={() => mutate(note.id)}>Delete</button>
         </div>
                 </li>

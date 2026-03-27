@@ -1,33 +1,37 @@
 "use client";
+import css from "./NoteDetails.module.css";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
+import { fetchNoteById } from "@/lib/api";
 
-// import { useQuery } from "@tanstack/react-query";
-// import { useParams } from 'next/navigation';
-// import { getSingleNote } from "@/lib/api";
+function NoteDetailsClient() {
+    const { id } = useParams<{ id: string }>();
+    
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["note", id],
+        queryFn: () => fetchNoteById(id),
+        refetchOnMount: false,
+    });
 
-// const NoteDetailsClient = () => {
-// 	const { id } = useParams<{ id: string }>();
+    if (isLoading) {
+        return <p>Loading, please wait...</p>;
+    }
+    if (error || !data) {
+        return <p>Something went wrong.</p>;
+      }
+    return (
+        <div className={css.container}>
+        <div className={css.item}>
+          <div className={css.header}>
+        <h2>{ data?.title}</h2>
+          </div>
+          <p className={css.tag}>{data?.tag}</p>
+          <p className={css.content}>{data?.content}</p>
+          <p className={css.date}>{data?.createdAt}</p>
+        </div>
+    </div> 
+)
 
-//   const { data: note, isLoading, error } = useQuery({
-//     queryKey: ["note", id],
-//     queryFn: () => getSingleNote(id),
-//     refetchOnMount: false,
-//   });
+}
 
-//   if (isLoading) return <p>Loading...</p>;
-
-//   if (error || !note) return <p>Some error..</p>;
-
-//   const formattedDate = note.updatedAt
-//     ? `Updated at: ${note.updatedAt}`
-//     : `Created at: ${note.createdAt}`;
-
-//   return (
-//     <div>
-//       <h2>{note.title}</h2>
-//       <p>{note.content}</p>
-//       <p>{formattedDate}</p>
-//     </div>
-//   );
-// };
-
-// export default NoteDetailsClient;
+export default NoteDetailsClient;

@@ -1,21 +1,21 @@
-// "use client";
+"use client";
 
-// import { useState } from "react";
-// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-
-// type Props = {
-//     children: React.ReactNode;
-// };
+import { useState } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 
-// const TanStackProvider = ({ children }: Props) => {
-//     const [queryClient] = useState(() => new QueryClient());
-//  return (
-//     <QueryClientProvider client={queryClient}>
-//       {children}
-//     </QueryClientProvider>
-//   );
-// };
+interface TanStackProviderProps {
+    children: React.ReactNode;
+};
 
-// export default TanStackProvider;
+
+function TanStackProvider({ children }: TanStackProviderProps ) {
+    const [queryClient] = useState(() => new QueryClient());
+ return (
+    <QueryClientProvider client={queryClient}>
+      {children}
+    </QueryClientProvider>
+  );
+};
+
+export default TanStackProvider;
